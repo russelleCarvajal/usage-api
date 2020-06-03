@@ -1,8 +1,7 @@
-let request = require('request');
-
 // Get variables needed from environment variables
 require('dotenv').config();
 let apiKey = process.env.APIKEY;
+let contentType = 'application/json'
 let appId = process.env.APPID;
 let region = process.env.REGION;
 let orgId = process.env.ORGID;
@@ -12,13 +11,15 @@ overallCustomerCount();
 usagePerCustomerWithinRegion();
 individualCustomerSubscription();
 
+let request = require('request');
 
+// Function to get the overall customer count 
 function overallCustomerCount() {
     let options = {
         'method': 'GET',
         'url': 'https://billable-vendor-usage-api.usw2.pure.cloud/v1/regions?appIds=' + appId,
         'headers': {
-            'Content-Type': 'application/json',
+            'Content-Type': contentType,
             'x-api-key': apiKey
         }
     };
@@ -28,12 +29,13 @@ function overallCustomerCount() {
     });
 }
 
+// Function to get the organization and the usage count per region
 function usagePerCustomerWithinRegion() {
     let options = {
         'method': 'GET',
         'url': 'https://billable-vendor-usage-api.usw2.pure.cloud/v1/regions/' + region + '/organizations?appIds=' + appId,
         'headers': {
-            'Content-Type': 'application/json',
+            'Content-Type': contentType,
             'x-api-key': apiKey
         }
     };
@@ -43,12 +45,13 @@ function usagePerCustomerWithinRegion() {
     });
 }
 
+// Function to get the subscription details of an organization
 function individualCustomerSubscription() {
     let options = {
         'method': 'GET',
         'url': 'https://billable-vendor-usage-api.usw2.pure.cloud/v1/regions/' + region + '/organizations/' + orgId + '?appIds=' + appId,
         'headers': {
-            'Content-Type': 'application/json',
+            'Content-Type': contentType,
             'x-api-key': apiKey
         }
     };
